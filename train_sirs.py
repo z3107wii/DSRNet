@@ -109,6 +109,7 @@ train_dataloader_fusion = datasets.DataLoader(
     num_workers=32,
 )
 
+""" 註解eval函數
 eval_dataset_real = datasets.DSRTestDataset(
     join(datadir, f"test/real20_{opt.real20_size}"),
     fns=read_fns("data/real_test.txt"),
@@ -158,6 +159,7 @@ eval_dataloader_wild = datasets.DataLoader(
     prefetch_factor=32,
     num_workers=32,
 )
+"""
 
 """Main Loop"""
 engine = Engine(opt)
@@ -176,7 +178,7 @@ if opt.resume or opt.debug_eval:
     save_dir = os.path.join(result_dir, "%03d" % engine.epoch)
     os.makedirs(save_dir, exist_ok=True)
     engine.save_model()
-
+"""註解eval
     engine.eval(
         eval_dataloader_real,
         dataset_name="testdata_real20",
@@ -205,7 +207,8 @@ if opt.resume or opt.debug_eval:
         suffix="wild",
         max_save_size=10,
     )
-
+"""
+"""註解eval
 # define training strategy
 set_learning_rate(opt.lr)
 while engine.epoch < 50:
@@ -250,3 +253,4 @@ while engine.epoch < 50:
             suffix="wild",
             max_save_size=10,
         )
+"""
