@@ -106,7 +106,7 @@ train_dataloader_fusion = datasets.DataLoader(
     shuffle=not opt.serial_batches,
     pin_memory=True,
     prefetch_factor=32,
-    num_workers=32,
+    num_workers=2,
 )
 
 """ 註解eval函數
