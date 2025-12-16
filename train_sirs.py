@@ -94,9 +94,6 @@ train_dataset_4 = datasets.DSRDataset(
     enable_transforms=True,
 )
 
-train_dataset_real = datasets.DSRTestDataset(
-    datadir_real, enable_transforms=True, if_align=opt.if_align
-)
 
 train_dataset_fusion = datasets.FusionDataset(
     [train_dataset_1, train_dataset_2, train_dataset_3, train_dataset_4],
