@@ -48,12 +48,48 @@ if opt.debug:
 
 # modify the following code to
 datadir = os.path.join(opt.base_dir)
-datadir_syn = join(datadir, "train/VOCdevkit/VOC2012/PNGImages")
-datadir_real = join(datadir, "train/real")
 
-train_dataset = datasets.DSRDataset(
-    datadir_syn,
-    read_fns("data/VOC2012_224_train_png.txt"),
+datadir_1_input = join(datadir, "training set/training set 1_13700/syn")
+datadir_1_target = join(datadir, "training set/training set 1_13700/t")
+datadir_2_input = join(datadir, "training set/training set 2_Berkeley_Real/blended")
+datadir_2_target = join(
+    datadir, "training set/training set 2_Berkeley_Real/transmission_layer"
+)
+datadir_3_input = join(datadir, "training set/training set 3_Nature/blended")
+datadir_3_target = join(
+    datadir, "training set/training set 3_Nature/transmission_layer"
+)
+datadir_4_input = join(
+    datadir, "training set/training set 4_unaligned_train250/blended"
+)
+datadir_4_target = join(
+    datadir, "training set/training set 4_unaligned_train250/transmission_layer"
+)
+
+train_dataset_1 = datasets.DSRDataset(
+    datadir_1_input,
+    datadir_1_target,  # 假設 DSRDataset 第二個參數是 Target Path
+    size=opt.max_dataset_size,
+    enable_transforms=True,
+)
+
+train_dataset_2 = datasets.DSRDataset(
+    datadir_2_input,
+    datadir_2_target,  # 假設 DSRDataset 第二個參數是 Target Path
+    size=opt.max_dataset_size,
+    enable_transforms=True,
+)
+
+train_dataset_3 = datasets.DSRDataset(
+    datadir_3_input,
+    datadir_3_target,  # 假設 DSRDataset 第3個參數是 Target Path
+    size=opt.max_dataset_size,
+    enable_transforms=True,
+)
+
+train_dataset_4 = datasets.DSRDataset(
+    datadir_4_input,
+    datadir_4_target,  # 假設 DSRDataset 第4個參數是 Target Path
     size=opt.max_dataset_size,
     enable_transforms=True,
 )
@@ -63,7 +99,8 @@ train_dataset_real = datasets.DSRTestDataset(
 )
 
 train_dataset_fusion = datasets.FusionDataset(
-    [train_dataset, train_dataset_real], [0.7, 0.3]
+    [train_dataset_1, train_dataset_2, train_dataset_3, train_dataset_4],
+    [0.25, 0.25, 0.25, 0.25],
 )
 
 train_dataloader_fusion = datasets.DataLoader(
