@@ -106,7 +106,7 @@ train_dataloader_fusion = datasets.DataLoader(
     shuffle=not opt.serial_batches,
     pin_memory=True,
     prefetch_factor=32,
-    num_workers=2,
+    num_workers=0,
 )
 
 """ 註解eval函數
@@ -208,7 +208,7 @@ if opt.resume or opt.debug_eval:
         max_save_size=10,
     )
 """
-"""註解eval
+
 # define training strategy
 set_learning_rate(opt.lr)
 while engine.epoch < 50:
@@ -225,32 +225,33 @@ while engine.epoch < 50:
     if engine.epoch % 1 == 0:
         save_dir = os.path.join(result_dir, "%03d" % engine.epoch)
         os.makedirs(save_dir, exist_ok=True)
-        engine.eval(
-            eval_dataloader_real,
-            dataset_name="testdata_real20",
-            savedir=save_dir,
-            suffix="real20",
-            max_save_size=10,
-        )
-        engine.eval(
-            eval_dataloader_solidobject,
-            dataset_name="testdata_solidobject",
-            savedir=save_dir,
-            suffix="solidobject",
-            max_save_size=10,
-        )
-        engine.eval(
-            eval_dataloader_postcard,
-            dataset_name="testdata_postcard",
-            savedir=save_dir,
-            suffix="postcard",
-            max_save_size=10,
-        )
-        engine.eval(
-            eval_dataloader_wild,
-            dataset_name="testdata_wild",
-            savedir=save_dir,
-            suffix="wild",
-            max_save_size=10,
-        )
-"""
+        
+        #     engine.eval(
+        #     eval_dataloader_real,
+        #     dataset_name="testdata_real20",
+        #     savedir=save_dir,
+        #     suffix="real20",
+        #     max_save_size=10,
+        # )
+        # engine.eval(
+        #     eval_dataloader_solidobject,
+        #     dataset_name="testdata_solidobject",
+        #     savedir=save_dir,
+        #     suffix="solidobject",
+        #     max_save_size=10,
+        # )
+        # engine.eval(
+        #     eval_dataloader_postcard,
+        #     dataset_name="testdata_postcard",
+        #     savedir=save_dir,
+        #     suffix="postcard",
+        #     max_save_size=10,
+        # )
+        # engine.eval(
+        #     eval_dataloader_wild,
+        #     dataset_name="testdata_wild",
+        #     savedir=save_dir,
+        #     suffix="wild",
+        #     max_save_size=10,
+        # )
+
