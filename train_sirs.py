@@ -24,7 +24,7 @@ SAVE_IMAGES_INTERVAL = 1500  # 您要求的儲存頻率 (張)
 SAVE_ITER_FREQ = math.ceil(SAVE_IMAGES_INTERVAL / BATCH_SIZE_CONST)
 
 # Google Drive 模型儲存路徑 (必須是 Colab 環境可存取到的絕對路徑)
-MODEL_SAVE_PATH = "/content/drive/MyDrive/Colab Notebooks/期末考/DSRNet/"
+MODEL_SAVE_PATH = "/content/drive/MyDrive/Colab Notebooks/Term_Project/DSRNet/"
 # --- 客製化儲存參數 END ---
 
 
