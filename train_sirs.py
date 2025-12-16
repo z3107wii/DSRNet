@@ -17,7 +17,7 @@ from data.image_folder import read_fns
 # --- 客製化儲存參數 START ---
 # 總訓練圖片數 N_train = 14288 * 0.8 = 11430 (估計值)
 # 確保這些參數在程式碼被執行的 Colab 環境中是正確的
-BATCH_SIZE_CONST = 1
+BATCH_SIZE_CONST = 4
 SAVE_IMAGES_INTERVAL = 1500  # 您要求的儲存頻率 (張)
 
 # 計算儲存間隔 (Iteration/Batch 數)
@@ -106,7 +106,7 @@ train_dataloader_fusion = datasets.DataLoader(
     shuffle=not opt.serial_batches,
     pin_memory=True,
     prefetch_factor=32,
-    num_workers=32,
+    num_workers=2,
 )
 
 """ 註解eval函數
