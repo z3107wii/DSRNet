@@ -106,7 +106,7 @@ train_dataloader_fusion = datasets.DataLoader(
     shuffle=not opt.serial_batches,
     pin_memory=True,
     prefetch_factor=32,
-    num_workers=0,
+    num_workers=32,
 )
 
 """ 註解eval函數
@@ -225,7 +225,7 @@ while engine.epoch < 50:
     if engine.epoch % 1 == 0:
         save_dir = os.path.join(result_dir, "%03d" % engine.epoch)
         os.makedirs(save_dir, exist_ok=True)
-        
+
         #     engine.eval(
         #     eval_dataloader_real,
         #     dataset_name="testdata_real20",
@@ -254,4 +254,3 @@ while engine.epoch < 50:
         #     suffix="wild",
         #     max_save_size=10,
         # )
-
