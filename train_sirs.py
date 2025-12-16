@@ -68,35 +68,32 @@ datadir_4_target = join(
 
 train_dataset_1 = datasets.DSRDataset(
     datadir_1_input,
-    datadir_1_target,  # 假設 DSRDataset 第二個參數是 Target Path
+    fns=None,  # 假設 DSRDataset 第二個參數是 Target Path
     size=opt.max_dataset_size,
     enable_transforms=True,
 )
 
 train_dataset_2 = datasets.DSRDataset(
     datadir_2_input,
-    datadir_2_target,  # 假設 DSRDataset 第二個參數是 Target Path
+    fns=None,  # 假設 DSRDataset 第二個參數是 Target Path
     size=opt.max_dataset_size,
     enable_transforms=True,
 )
 
 train_dataset_3 = datasets.DSRDataset(
     datadir_3_input,
-    datadir_3_target,  # 假設 DSRDataset 第3個參數是 Target Path
+    fns=None,  # 假設 DSRDataset 第3個參數是 Target Path
     size=opt.max_dataset_size,
     enable_transforms=True,
 )
 
 train_dataset_4 = datasets.DSRDataset(
     datadir_4_input,
-    datadir_4_target,  # 假設 DSRDataset 第4個參數是 Target Path
+    fns=None,  # 假設 DSRDataset 第4個參數是 Target Path
     size=opt.max_dataset_size,
     enable_transforms=True,
 )
 
-train_dataset_real = datasets.DSRTestDataset(
-    datadir_real, enable_transforms=True, if_align=opt.if_align
-)
 
 train_dataset_fusion = datasets.FusionDataset(
     [train_dataset_1, train_dataset_2, train_dataset_3, train_dataset_4],
