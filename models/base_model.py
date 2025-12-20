@@ -1,5 +1,6 @@
 import os
 import torch
+import glob
 import util.util as util
 
 
@@ -15,7 +16,6 @@ class BaseModel:
 
         # --- 核心修正：路徑清理邏輯 ---
         # 直接使用傳入的 checkpoints_dir 和 name，避免疊加兩次絕對路徑
-        # 如果 opt.checkpoints_dir 已經是絕對路徑，os.path.join 會正確處理
         self.save_dir = os.path.join(opt.checkpoints_dir, opt.name)
         self.model_save_dir = self.save_dir
 
@@ -50,21 +50,34 @@ class BaseModel:
         print(self.optimizers[-1])
 
     def save(self, label=None):
-        # 獲取當前訓練進度，如果沒有定義則預設為 0
+        # 獲取當前訓練進度
         epoch = getattr(self, "epoch", 0)
         iterations = getattr(self, "iterations", 0)
 
         # 確保目錄存在
         os.makedirs(self.model_save_dir, exist_ok=True)
 
-        # 檔名格式修正為 .pth (PyTorch 慣用格式)
+        # 檔名處理邏輯
         if label is None:
             filename = "%s_epoch%03d_it%08d.pth" % (self.opt.name, epoch, iterations)
         else:
-            # 重要修正：確保 label 只是純字串 (如 'latest')，剔除可能夾帶的路徑資訊
+            # 剔除可能夾帶的路徑資訊，只留純標籤
             clean_label = str(label).split("/")[-1]
             filename = "%s_%s.pth" % (self.opt.name, clean_label)
 
+        # --- 自動清理舊檔案邏輯 (針對 DSRNet_xxxx 格式) ---
+        if label is not None and "DSRNet_" in str(label):
+            # 搜尋現有所有符合命名規則的舊模型
+            pattern = os.path.join(self.model_save_dir, f"{self.opt.name}_DSRNet_*.pth")
+            old_files = glob.glob(pattern)
+            for old_file in old_files:
+                try:
+                    os.remove(old_file)
+                    print(f"清理空間：已刪除舊模型檔案 {os.path.basename(old_file)}")
+                except Exception as e:
+                    print(f"清理失敗: {e}")
+
+        # 最終儲存路徑
         model_path = os.path.join(self.model_save_dir, filename)
 
         # 執行儲存
@@ -75,7 +88,6 @@ class BaseModel:
         if label is None:
             label = "eval_latest"
 
-        # 同樣確保 label 不含路徑
         clean_label = str(label).split("/")[-1]
         filename = "%s.pth" % clean_label
 
