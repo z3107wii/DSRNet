@@ -80,7 +80,7 @@ class Engine(object):
 
                 # 設定客製化模型儲存路徑和命名
                 save_filename = os.path.join(
-                    custom_save_path, f"DSRNet_{trained_images_count}.pth"
+                    custom_save_path, f"DSRNet_{trained_images_count}"
                 )
 
                 # 調用模型的儲存方法
